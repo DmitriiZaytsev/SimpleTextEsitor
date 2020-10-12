@@ -9,23 +9,26 @@
     <Window.DataContext>
         <l:MainWindowModel />
     </Window.DataContext>
+    <Window.Resources>
+        <l:OpenDialog x:Key="OpenFileDialog" Title="Открыть файл" SelectedFile="{Binding FileName, Mode=OneWayToSource}"/>
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
                 <MenuItem Header="Создать" Command="{Binding CreateCommand}"/>
                 <Separator/>
-                <MenuItem Header="Открыть" />
-                <MenuItem Header="Сохранить"/>
-                <MenuItem Header="Сохранить как"/>
+                <MenuItem Header="Открыть" Command="{Binding Source={StaticResource OpenFileDialog}, Path=OpenCommand}"/>
+                <MenuItem Header="Сохранить" Command="{Binding SaveCommand}" CommandParameter="{Binding FileName}"/>
+                <MenuItem Header="Сохранить как" Command="{Binding SaveCommand}"/>
                 <Separator/>
-                <MenuItem Header="Выход"/>
+                <MenuItem Header="Выход" Command="{Binding QuitCommand}"/>
             </MenuItem>
             <MenuItem Header="Настройки"/>
             <MenuItem Header="Помощь"/>
         </Menu>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button Content="Создать" Command="{Binding CreateCommand}"/>
-            <Button Content="Открыть"/>
+            <Button Content="Открыть" Command="{Binding OpenCommand, Source={StaticResource OpenFileDialog}}"/>
             <Button Content="Сохранить" Command="{Binding SaveCommand}"/>
         </ToolBarPanel>
         <StatusBar DockPanel.Dock="Bottom">

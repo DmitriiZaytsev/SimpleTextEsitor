@@ -44,8 +44,7 @@ namespace SimpleTextEditor
             typeof(OpenDialog), 
             new PropertyMetadata(default(string)));
         
-        public ICommand OpenCommand;
-        //private Freezable _freezableImplementation;
+        public ICommand OpenCommand { get; }
 
         public OpenDialog()
         {
