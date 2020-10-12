@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="LamdaCommand.cs" />
     <Compile Include="MainWindowModel.cs" />
+    <Compile Include="OpenDialog.cs" />
     <Compile Include="VeiwModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

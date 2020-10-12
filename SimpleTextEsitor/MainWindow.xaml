@@ -5,17 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:l="clr-namespace:SimpleTextEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding FileName, StringFormat='Редактор {0}', TargetNullValue='Редактор', FallbackValue='Текстовый редактор' }" Height="450" Width="800">
     <Window.DataContext>
         <l:MainWindowModel />
     </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
-                <MenuItem Header="Создать"/>
-                
+                <MenuItem Header="Создать" Command="{Binding CreateCommand}"/>
                 <Separator/>
-                <MenuItem Header="Открыть"/>
+                <MenuItem Header="Открыть" />
                 <MenuItem Header="Сохранить"/>
                 <MenuItem Header="Сохранить как"/>
                 <Separator/>
@@ -25,9 +24,9 @@
             <MenuItem Header="Помощь"/>
         </Menu>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Button Content="Создать"/>
+            <Button Content="Создать" Command="{Binding CreateCommand}"/>
             <Button Content="Открыть"/>
-            <Button Content="Сохранить"/>
+            <Button Content="Сохранить" Command="{Binding SaveCommand}"/>
         </ToolBarPanel>
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="123"/>

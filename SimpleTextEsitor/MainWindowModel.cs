@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace SimpleTextEditor
 {
@@ -28,11 +29,11 @@ namespace SimpleTextEditor
             }
         }
 
-        private async void ReadFileAsinc(string FilePath)
+        private async void ReadFileAsinc(string filePath)
         {
             Text = "";
-            if (!File.Exists(FilePath)) return;
-            using (var rider = File.OpenText(FilePath))
+            if (!File.Exists(filePath)) return;
+            using (var rider = File.OpenText(filePath))
                 Text = await rider.ReadToEndAsync().ConfigureAwait(true);
         }
         
@@ -42,17 +43,32 @@ namespace SimpleTextEditor
         public MainWindowModel()
         {
             CreateCommand = new LamdaCommand(OnCreateCommandExecuted);
-            SaveCommand = new LamdaCommand(OnSaveCommandExecuted, OnSaveCommandCanExecuted);
+            SaveCommand = new LamdaCommand(OnSaveCommandExecutedAsync, OnSaveCommandCanExecuted);
         }
 
-        private bool OnSaveCommandCanExecuted(object FilePath)
+        private bool OnSaveCommandCanExecuted(object filePath)
         {
-            return string.IsNullOrEmpty(f_text);
+            return !string.IsNullOrEmpty(f_text);
         }
 
-        private void OnSaveCommandExecuted(object FilePath)
+        private async void OnSaveCommandExecutedAsync(object filePath)
         {
-            
+            var file_name = filePath as string;
+            if (file_name == null)
+            {
+                var dialog = new SaveFileDialog()
+                {
+                    Title = "Сохранение файла...",
+                    Filter = "Текстовые файлы (*.txt)| *.txt | Все файлы (*.*) | *.*",
+                    InitialDirectory = Environment.CurrentDirectory,
+                    RestoreDirectory = true
+                };
+                if (dialog.ShowDialog() != true) return;
+                file_name = dialog.FileName;
+                using (var writeer = new StreamWriter(new FileStream(file_name, FileMode.Create, FileAccess.Write)))
+                    await writeer.WriteAsync(f_text).ConfigureAwait(true);
+                FileName = file_name;
+            }
         }
 
         private void OnCreateCommandExecuted(object p)
