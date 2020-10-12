@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LamdaCommand.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="VeiwModel.cs" />
     <Page Include="MainWindow.xaml">
