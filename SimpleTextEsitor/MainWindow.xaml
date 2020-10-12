@@ -12,6 +12,13 @@
     <Window.Resources>
         <l:OpenDialog x:Key="OpenFileDialog" Title="Открыть файл" SelectedFile="{Binding FileName, Mode=OneWayToSource}"/>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control" Key="Q" Command="{Binding QuitCommand}"/>
+        <KeyBinding Modifiers="Control" Key="O" Command="{Binding Source={StaticResource OpenFileDialog}, Path=OpenCommand}"/>
+        <KeyBinding Modifiers="Control+Shift" Key="S" Command="{Binding SaveCommand}"/>
+        <KeyBinding Modifiers="Control" Key="S" Command="{Binding SaveCommand}" CommandParameter="{Binding FileName}"/>
+        <KeyBinding Modifiers="Control" Key="N" Command="{Binding CreateCommand}" />
+    </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
@@ -23,8 +30,8 @@
                 <Separator/>
                 <MenuItem Header="Выход" Command="{Binding QuitCommand}"/>
             </MenuItem>
-            <MenuItem Header="Настройки"/>
-            <MenuItem Header="Помощь"/>
+            <MenuItem Header="Настройки" IsEnabled="False"/>
+            <MenuItem Header="Помощь" IsEnabled="False"/>
         </Menu>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button Content="Создать" Command="{Binding CreateCommand}"/>
