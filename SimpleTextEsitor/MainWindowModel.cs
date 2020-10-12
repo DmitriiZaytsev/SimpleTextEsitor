@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SimpleTextEditor
 {
@@ -23,9 +24,7 @@ namespace SimpleTextEditor
                 if(Set(ref f_filename, value))
                 {
                     ReadFileAsinc(value);
-
                 }
-
             }
         }
 
@@ -37,7 +36,29 @@ namespace SimpleTextEditor
                 Text = await rider.ReadToEndAsync().ConfigureAwait(true);
         }
         
+        public ICommand CreateCommand { get; }
+        public ICommand SaveCommand { get; }
 
+        public MainWindowModel()
+        {
+            CreateCommand = new LamdaCommand(OnCreateCommandExecuted);
+            SaveCommand = new LamdaCommand(OnSaveCommandExecuted, OnSaveCommandCanExecuted);
+        }
 
+        private bool OnSaveCommandCanExecuted(object FilePath)
+        {
+            return string.IsNullOrEmpty(f_text);
+        }
+
+        private void OnSaveCommandExecuted(object FilePath)
+        {
+            
+        }
+
+        private void OnCreateCommandExecuted(object p)
+        {
+            Text = "";
+            FileName = null;
+        }
     }
 }
